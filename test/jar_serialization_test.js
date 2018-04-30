@@ -185,7 +185,7 @@ vows
       "Cannot call toJSON": function(jar) {
         assert.throws(function() {
           jar.toJSON();
-        }, 'getAllCookies is not implemented (therefore jar cannot be serialized)');
+        }, new Error('getAllCookies is not implemented (therefore jar cannot be serialized)'));
       }
     }
   })
@@ -200,7 +200,7 @@ vows
       "Cannot call toJSON": function(jar) {
         assert.throws(function() {
           jar.toJSON();
-        }, 'CookieJar store is not synchronous; use async API instead.');
+        }, new Error('CookieJar store is not synchronous; use async API instead.'));
       }
     }
   })

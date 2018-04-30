@@ -50,6 +50,16 @@ var isInteger = Number.isInteger || function(value) {
     Math.floor(value) === value;
 };
 
+function throwsExactly(msg) {
+  // Node >= 10 doesn't work if you pass in a string to assert.throws().
+  // Meanwhile, Node < 10 seems to only accept strings!
+  if (Number(process.versions.node.split('.')[0]) >= 10) {
+    return new Error(msg);
+  } else {
+    return msg;
+  }
+}
+
 function setUp(context) {
   context.now = new Date();
   context.nowISO = context.now.toISOString();
@@ -185,7 +195,7 @@ vows
       "Cannot call toJSON": function(jar) {
         assert.throws(function() {
           jar.toJSON();
-        }, new Error('getAllCookies is not implemented (therefore jar cannot be serialized)'));
+        }, throwsExactly('getAllCookies is not implemented (therefore jar cannot be serialized)'));
       }
     }
   })
@@ -200,7 +210,7 @@ vows
       "Cannot call toJSON": function(jar) {
         assert.throws(function() {
           jar.toJSON();
-        }, new Error('CookieJar store is not synchronous; use async API instead.'));
+        }, throwsExactly('CookieJar store is not synchronous; use async API instead.'));
       }
     }
   })
